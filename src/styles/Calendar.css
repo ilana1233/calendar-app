@@ -1,0 +1,76 @@
+.calendar{
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.calendar-header{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+    direction: rtl;
+}
+
+.user-info{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    color:#333
+}
+
+.logout-button{
+    padding: 6px 12px;
+    background-color: aquamarine;
+    color: grey;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover{
+    background-color:mediumseagreen;
+}
+
+
+.calendar-control{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    background-color: gray;
+}
+
+.calendar-control select{
+    padding: 6px 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.calendar-grid{
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    gap: 8px;
+}
+/* @media (max-width:600px ) {
+    .calendar{
+        width: 480px;
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .calendar-control {
+        font-size: 20px;
+        width: 480px;
+    }
+
+    .yearView{
+        font-size: 14px;
+        width: 480px;
+    }
+    
+} */

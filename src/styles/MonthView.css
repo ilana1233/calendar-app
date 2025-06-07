@@ -1,0 +1,24 @@
+.month-view{
+    border:2px solid blue;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.month-title{
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.day-grid{
+display: grid;
+grid-template-columns: repeat(7, 1fr);
+gap: 5px;
+}
+
+.weekday-colums{
+    display:flex;
+    justify-content:space-between;
+    color: blue;
+    margin: 15px;
+}

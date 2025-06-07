@@ -1,0 +1,12 @@
+.day-view{
+    border: 2px solid blue;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.25 ease;
+}
+
+.day-view:hover{
+    background-color:skyBlue;
+}
