@@ -6,13 +6,14 @@ import "../styles/Calendar.css";
 const Calendar = ({ currentUser,onLogout }) => {
     const [month, setMonth] = useState(new Date().getMonth() + 1);
     const [year,setYear] = useState(new Date().getFullYear());
+
     
     const nextMonth = () => {
         if(month === 1) {
             setMonth(12);
             setYear(year - 1);
         } else {
-            setMonth(month - 1);
+            setMonth(month + 1);
         }
     };
 
@@ -34,7 +35,6 @@ const Calendar = ({ currentUser,onLogout }) => {
     setYear(year - 1);
         
     
-
 
     return (
         <div className="calendar">

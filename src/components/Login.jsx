@@ -45,10 +45,7 @@ import "../styles/Login.css";
 
                    <button type="submit" onClick={onSwitchToRegister}>
                     עדיין אין לך הרשמה? הרשמה
-                   </button>
-
-                   <button type="button" onClick={onSwitchToLogin}>חזרה להתחברות</button>
-                   
+                   </button>                   
             </div>
             </form>
         </div>
