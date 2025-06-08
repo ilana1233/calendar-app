@@ -1,17 +1,24 @@
 import React from 'react';
-import MonthView from "../components/MonthView";
-import "../styles/MonthView.css";
+import "../styles/YearView.css";
 
 
-const YearView = () => {
-    const month = Array.from({ length:12}, (_, i) => i + 1);
+const YearView = ({ clendarDate, onMonthSelect}) => {
+    const months = ["ינואר","פברואר","מרץ","אפריל","מאי","יוני","יולי","אוגוסט","ספטמבר","אוקטובר","נובמבר","דצמבר"];
 
     return (
-        <div className="year-view">
-            {month.map((month) => (
-                <MonthView key={month}
-                month={month} />
-            ))}
+        <div className="year-grid">
+            {months.map((monthName, index) => (
+                <div  
+                key={index}
+                className="month"
+                onClick={()=> (
+                    onMonthSelect(index + 1)
+                )}                
+                >
+                    {monthName}
+                    </div>
+          ))}
+         
         </div>
     );
 };

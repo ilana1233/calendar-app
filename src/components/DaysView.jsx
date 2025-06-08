@@ -1,86 +1,117 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import MeetingForm from "../components/MeetingForm";
 import "../styles/DayView.css";
 
+const DaysView = ({ month, year, calendarDate }) => {
+  const [showForm, setShowForm] = useState(false);
+  const [meetings, setMeetings] = useState({});
+  const weekdays = ["א", "ב", "ג", "ד", "ה", "ו", "ש"];
 
-const DaysView = ({ day, month, year}) => {
-    const [showForm, setshowForm] = useState(false);
-    const [meetings, setMeetings] = useState([]);
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const firstDay = new Date(year, month - 1, 1).getDay(); // תקין
 
-        const dateKey = `${year}-${month}-${day}`;
+  const dateKey = `${month},${year}`;
 
-        //טוען פגישות\
-        useEffect(() => {
-            const saved = localStorage.getItem("meetings");
-            if (saved) {
-                const data = JSON.parse(saved);
-                if(data[dateKey]){
-                    setMeetings(data[dateKey]);
-                }
-            }
-        }, [dateKey]);
-        
-        //שומר פגישה.
-        const handleSaveMeeting = (meeting)  => {
-            const saved = JSON.parse(localStorage.getItem("meeting")) || {};
-            const updated = {
-                ...saved,
-                [dateKey]: [...(saved[dateKey] || []), meeting],
-            };
-            localStorage.setItem("meetings", JSON.stringify(updated));
-                setMeetings(updated[dateKey]);
-                setshowForm(false);      
-        };
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("meetings")) || {};
+    setMeetings(saved[dateKey] || {});
+  }, [dateKey]);
 
-        // const handleDeleteMeeting = (indexToDelete) => {
-        //     const updatesMeetings = meetings.filter((_, i) => i ===
-        // indexToDelete);
-        // const allMeetings =
-        //     JSON.parse(localStorage.getItem("meetings")) || {};
-        //     allMeetings[dateKey] =  updatesMeetings;
-        // localStorage.setItem("meetings", JSON.stringify(allMeetings));
-        // setMeetings(updatesMeetings);
-        // };
-    
-    return (
-        <div className="day-view" onClick={() => setshowForm(true)}>
-          <div className="day-number">{day}
-            {meetings.length > 0 && (
+  const handleSaveMeeting = (day, meeting) => {
+    const saved = JSON.parse(localStorage.getItem("meetings")) || {};
+    const updatedDayMeetings = [...(saved[dateKey]?.[day] || []), meeting];
+    const updated = {
+      ...saved,
+      [dateKey]: {
+        ...saved[dateKey],
+        [day]: updatedDayMeetings,
+      },
+    };
+    localStorage.setItem("meetings", JSON.stringify(updated));
+    setMeetings(updated[dateKey]);
+    setShowForm(false);
+  };
 
+  const handleDeleteMeeting = (day, indexToDelete) => {
+    const saved = JSON.parse(localStorage.getItem("meetings")) || {};
+    const updatedDayMeetings =
+      saved[dateKey]?.[day]?.filter((_, i) => i !== indexToDelete) || [];
+    const updated = {
+      ...saved,
+      [dateKey]: {
+        ...saved[dateKey],
+        [day]: updatedDayMeetings,
+      },
+    };
+    localStorage.setItem("meetings", JSON.stringify(updated));
+    setMeetings(updated[dateKey]);
+  };
+
+  const getEventsForDay = (day) => {
+    if (calendarDate) {
+      return calendarDate.filter(
+        (event) =>
+          event.day === day && event.month === month && event.year === year
+      );
+    } else {
+      return meetings?.[day] || [];
+    }
+  };
+
+  const blanks = Array(firstDay).fill(null);
+
+  return (
+    <div className="day-view">
+      <div className="weekdays-row">
+        {weekdays.map((dayName, index) => (
+          <div key={index} className="weekday">
+            {dayName}
+          </div>
+        ))}
+      </div>
+
+      <div className="day-view">
+        <div className="day-grid">
+        {blanks.map((_, i) => (
+          <div key={`b-${i}`} className="day.empty"></div>
+          
+        ))}
+
+        {[...Array(daysInMonth)].map((_, index) => {
+          const dayNumber = index + 1;
+          const events = getEventsForDay(dayNumber);
             
-        <div className="tooltip-wrapper">
-            <div className="meeting-indicator">V</div>
-            <div className="tooltip-content">
-                <strong>פגישות:</strong>
-                <ul>
-                    {meetings.map((m,idx) => (
-                        <li key={idx} style={{display: "flex", justifyContent: "space-between", gap: "5px"}}>
-                          <span>{m.time} - {m.title}</span>
-                          <button onClick={(e) => { 
-                            e.stopPropagation();
+          return (
+            <div key={index} className="day">
+              <strong>{dayNumber}</strong>
 
-                          }} style={{background:"transparent",
-                           border:"none",color: "red", fontWeight:"bold",cursor:"pointer"}}
-                           title="מחק פגישה X">
-                            </button>  
-                        </li>
-                    ))} 
-                    </ul>
-            </div>
-        </div>
-            )}
+              {events.map((event, idx) => (
+                <div key={idx} className="event">
+                  {event.title}
+                  <button onClick={() => handleDeleteMeeting(dayNumber, idx)}>
+                    ❌
+                  </button>
+                </div>
+                
+              ))}
 
-            {showForm && (
+              <button onClick={() => setShowForm(dayNumber)}>
+                ➕ הוסף</button>
+
+              {showForm === dayNumber && (
                 <MeetingForm
-                date={dateKey}
-                onSave={handleSaveMeeting}
-                oncancel={() =>
-                     setshowForm(false)} />
-            )}
+                  onSave={(meeting) => handleSaveMeeting(dayNumber, meeting)}
+                  onCancel={() => setShowForm(false)}
+                  
+                />
+              )}
             </div>
-        </div>
-    );
+          );
+        })}
+      </div>
+    </div>
+ </div>
+  );
 };
 
 export default DaysView;
-

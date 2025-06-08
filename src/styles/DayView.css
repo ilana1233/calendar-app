@@ -1,14 +1,78 @@
 .day-view{
-    border: 2px solid blue;
-    text-align: center;
+    width: 100%;
     padding: 10px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background-color 0.25 ease;
+    direction: rtl;
 }
 
-.day-view:hover{
-    background-color:skyBlue;
+.weekdays-row,
+.day-grid{
+
+  width: 100%;
+  padding: 10px;
+  direction: rtl;
+  display: grid;
+  text-align: center;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.weekdays-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  font-size: 12px;
+}
+.weekday{
+    font-size: 16px;
 }
 
 
+.day-grid {
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    gap: 5px;
+}
+
+
+.day,
+.day.empty {
+  background-color: beige;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid gray;
+  min-height: 80px;
+}
+
+.day.empty {
+  background-color: transparent;
+  border: none;
+}
+
+.event {
+  background-color: #cce5ff;
+  margin-top: 5px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+button {
+  margin: 5px 0;
+  font-size: 0.8em;
+}
+
+.day-view:hover {
+  background-color: skyblue;
+}
+
+@media screen and (max-width: 600px) {
+  .days-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .day {
+    min-height: 70px;
+  }
+}
