@@ -32,6 +32,7 @@
 .day-grid {
     display: grid;
     grid-template-columns: repeat(7,1fr);
+    overflow-x: auto;
     gap: 5px;
 }
 
@@ -53,9 +54,10 @@
 .event {
   background-color: #cce5ff;
   margin-top: 5px;
-  padding: 2px 4px;
+  padding: 2px 3.5wpx 4px;
   border-radius: 4px;
   font-size: 0.85em;
+  text-align: center;
 }
 
 button {
@@ -64,15 +66,27 @@ button {
 }
 
 .day-view:hover {
-  background-color: skyblue;
+  background-color: mediumaquamarine;
+  padding: 0.5px 1px 1.5px 2px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 770px) {
   .days-grid {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(7,
+    minmax(60px, 1fr));
+    padding: 100px;
+    overflow: scroll;
+  }
+  .weekdays-row{
+    font-size: 12px;
   }
 
   .day {
     min-height: 70px;
+    font-size: 12px;
+    
+  }
+  .event{
+    font-size: 0.75em;
   }
 }
